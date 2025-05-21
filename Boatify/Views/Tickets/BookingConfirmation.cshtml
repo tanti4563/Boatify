@@ -1,0 +1,72 @@
+﻿@model ChuyenDI.Models.Booking
+
+@{
+    ViewBag.Title = "Booking Confirmation";
+}
+
+<div class="card">
+    <div class="card-header bg-success text-white">
+        <h2>Booking Confirmed!</h2>
+        <p>Your booking has been successfully completed.</p>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-success">
+            <h5>Booking Reference: #@Model.BookingId</h5>
+            <p>A confirmation email has been sent to @Model.PassengerEmail.</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Ticket Details</h4>
+                <table class="table">
+                    <tr>
+                        <th>Route:</th>
+                        <td>@Model.Ticket.Route.Origin - @Model.Ticket.Route.Destination</td>
+                    </tr>
+                    <tr>
+                        <th>Departure:</th>
+                        <td>@Model.Ticket.DepartureTime.ToString("MMMM dd, yyyy HH:mm")</td>
+                    </tr>
+                    <tr>
+                        <th>Arrival:</th>
+                        <td>@Model.Ticket.ArrivalTime.ToString("MMMM dd, yyyy HH:mm")</td>
+                    </tr>
+                    <tr>
+                        <th>Seat:</th>
+                        <td>@Model.Seat.SeatNumber (@Model.Seat.SeatClass)</td>
+                    </tr>
+                    <tr>
+                        <th>Price:</th>
+                        <td>@Model.TotalPrice.ToString("C0")</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h4>Passenger Information</h4>
+                <table class="table">
+                    <tr>
+                        <th>Name:</th>
+                        <td>@Model.PassengerName</td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td>@Model.PassengerEmail</td>
+                    </tr>
+                    <tr>
+                        <th>Phone:</th>
+                        <td>@(string.IsNullOrEmpty(Model.PassengerPhone) ? "Not provided" : Model.PassengerPhone)</td>
+                    </tr>
+                    <tr>
+                        <th>Booking Date:</th>
+                        <td>@Model.BookingTime.ToString("MMMM dd, yyyy HH:mm")</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="d-flex gap-3 mt-4">
+            <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Back to Home</a>
+            <a href="@Url.Action("History", "Tickets")" class="btn btn-outline-primary">View All Bookings</a>
+        </div>
+    </div>
+</div>

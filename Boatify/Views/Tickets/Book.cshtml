@@ -1,0 +1,66 @@
+﻿@model ChuyenDI.Models.ViewModels.BookingViewModel
+
+@{
+    ViewBag.Title = "Book Ticket";
+    var ticket = ViewBag.Ticket as ChuyenDI.Models.Ticket;
+    var seat = ViewBag.Seat as ChuyenDI.Models.Seat;
+}
+
+<div class="card">
+    <div class="card-header">
+        <h2>@ViewBag.Title</h2>
+        <p>
+            Please enter passenger details to complete your booking.
+        </p>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8">
+                @using (Html.BeginForm("Book", "Tickets", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.TicketId)
+                    @Html.HiddenFor(m => m.SeatId)
+                    @Html.HiddenFor(m => m.TotalPrice)
+
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(m => m.PassengerName, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.PassengerName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.PassengerName, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(m => m.PassengerEmail, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.PassengerEmail, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.PassengerEmail, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(m => m.PassengerPhone, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.PassengerPhone, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.PassengerPhone, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Complete Booking</button>
+                        <a href="@Url.Action("SelectSeat", "Tickets", new { id = ticket.TicketId })" class="btn btn-outline-secondary">Back to Seat Selection</a>
+                    </div>
+                }
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Booking Summary</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Route:</strong> @ticket.Route.Origin - @ticket.Route.Destination</p>
+                        <p><strong>Departure:</strong> @ticket.DepartureTime.ToString("MMMM dd, yyyy HH:mm")</p>
+                        <p><strong>Arrival:</strong> @ticket.ArrivalTime.ToString("MMMM dd, yyyy HH:mm")</p>
+                        <p><strong>Seat Number:</strong> @seat.SeatNumber (@seat.SeatClass)</p>
+                        <p><strong>Price:</strong> @ticket.BasePrice.ToString("C0")</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

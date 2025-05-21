@@ -1,0 +1,50 @@
+﻿@model ChuyenDI.Models.ViewModels.SearchViewModel
+
+@{
+    ViewBag.Title = "Search Tickets";
+}
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h2>@ViewBag.Title</h2>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("Search", "Tickets", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(m => m.Origin, new { @class = "form-label" })
+                        @Html.DropDownListFor(m => m.Origin, ViewBag.Origins as SelectList, "-- Select Origin --", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Origin, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(m => m.Destination, new { @class = "form-label" })
+                        @Html.DropDownListFor(m => m.Destination, ViewBag.Destinations as SelectList, "-- Select Destination --", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Destination, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(m => m.DepartureDate, new { @class = "form-label" })
+                        @Html.EditorFor(m => m.DepartureDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                        @Html.ValidationMessageFor(m => m.DepartureDate, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(m => m.Passengers, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.Passengers, new { @class = "form-control", @type = "number", @min = "1", @max = "5" })
+                        @Html.ValidationMessageFor(m => m.Passengers, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
